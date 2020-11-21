@@ -8,11 +8,13 @@ Julia Cinel Chagas - 759314
 
 # **Princípio da Responsabilidade Única (SRP)**
 
-Muitas vezes, principalmente por conta de inexperiência, programadores constroem softwares não tão simples ou fáceis de serem manejados. Isso ocorre por falta do entendimento dos Princípios da Programação Orientada a Objetos (SOLID).
+Muitas vezes, principalmente por conta de inexperiência, programadores constroem softwares não tão simples ou fáceis de serem manejados. Isso ocorre muitas vezes por falta do entendimento dos Princípios da Programação Orientada a Objetos (SOLID).
 
 Dentre os princípios que compõem o SOLID, há o Princípio da Responsabilidade Única, que basicamente diz que uma classe deve possuir somente um motivo para mudar, ou seja, ela deve ter apenas uma responsabilidade.
 
-A seguir, observamos um claro exemplo da violação desse princípio, retirado de um trabalho da disciplina de Programação Orientada a Objetos, cujo o objetivo era criar um sistema de gerenciamento de um banco:
+A seguir, observa-se um claro exemplo da violação desse princípio, retirado de um trabalho da disciplina de Programação Orientada a Objetos do segundo semestre de 2019, cujo o objetivo era criar um sistema de gerenciamento de um banco.
+
+## Trecho de código que não segue o SRP:
 
 ```cpp
 class ContaCorrente {
@@ -47,16 +49,17 @@ public:
 
 ```
 
-No trecho de código acima podemos identificar pelo menos quatro papéis diferentes que a classe ContaCorrente está realizando. 
+No trecho de código acima pode-se identificar pelo menos quatro papéis diferentes que a classe ContaCorrente está realizando. 
 
-Em `imprimeExtrato` temos um método cuja função é mostrar na tela o exatrato da determinada conta, assim como em `list <Lancamento*>` também é exibido na tela uma lista dos lançamentos feitos nesta conta.
+Em `imprimeExtrato` tem-se um método cuja função é mostrar na tela o extrato da determinada conta, assim como em `lista_lancamentos` também é exibido na tela uma lista dos lançamentos feitos nesta conta.
 
-Já em `debitoConta`, `creditoConta` observa-se dois métodos que realizam operações no disco, do tipo de escrita, e a `getLancamentos` que faz uma leitura na memória secundária.
+Já em `debitoConta` e em `creditoConta` observa-se dois métodos que realizam operações no disco, do tipo de escrita, e a `getLancamentos` que faz uma leitura na memória secundária.
 
 Os métodos `getQuantidadeContasCorrentes` e `getMontanteTotalCorrentes` têm a função de contar quantas contas correntes existem e a quantidade de dinheiro total, respectivamente, ou seja, operações que o banco deve realizar sobre essas contas.
 
 Os demais métodos fazem parte da abstração da conta no sistema, portando extrai da `ContaCorrente` suas funcionalidades e é a visão que o programador tem acerca do sistema criado.
 
+## Trecho de código que segue o SRP:
 
 ```cpp
 class ContaCorrenteImprime {
@@ -103,7 +106,13 @@ public:
 }
 ```
 
-Para que seja aplicado de maneira correta o **SRP** nesse exemplo, separa-se a classe `ContaCorrente` em quatro diferentes classes, sendo........ para que cada uma tenha uma única responsabilidade.
+Para que seja aplicado de maneira correta o **SRP** neste exemplo, modifica-se a classe `ContaCorrente` dividindo-a em quatro diferentes classes, com objetivo de:
+ - Evitar uma classe que faz tudo no código (também chamada de *God Class*), pois pode tornar muito difícil realizar mudanças nesse tipo de classe sem afetar outras funcionalidades dentro dela, ou seja, é ideal evitar dependências entre elas;
+ - Melhorar a coesão, isto é, uma classe não deve ter responsabilidades que saem do seu escopo;
+ - Modularização do código;
+ - Eliminar a dificuldade em relação a criação de testes automatizados.
+
+ Com isso, nota-se que a classe foi dividida para que cada uma tenha uma única responsabilidade. 
 
 ## **Referências**
 
